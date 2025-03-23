@@ -6,7 +6,7 @@ public class LiquidContainer: Container, IHazardNotifier
     
     public bool IsHazardous { get; set; }
 
-    public LiquidContainer(int tareWeight, int maximumPayload, int height, int depth, bool isHazardous = false) : base(tareWeight, maximumPayload, height,
+    public LiquidContainer(uint tareWeight, uint maximumPayload, uint height, uint depth, bool isHazardous = false) : base(tareWeight, maximumPayload, height,
         depth)
     {
         isHazardous = isHazardous;
@@ -17,9 +17,9 @@ public class LiquidContainer: Container, IHazardNotifier
         Console.WriteLine($"Container {SerialNumber} is in Hazardous situation");
     }
 
-    public override int load(int mass)
+    public override uint Load(uint mass)
     {
-        int max = IsHazardous ? MaximumPayload / 2: (int)(MaximumPayload * 0.9);
+        uint max = IsHazardous ? MaximumPayload / 2: (uint)(MaximumPayload * 0.9);
         if (mass + CargoWeight > max)
         {
             Notify();
@@ -27,7 +27,7 @@ public class LiquidContainer: Container, IHazardNotifier
         }
         else
         {
-           base.load(mass); 
+           base.Load(mass); 
         }
 
         return CargoWeight;

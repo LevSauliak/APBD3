@@ -1,21 +1,21 @@
 ﻿namespace APBD3;
 
-public class GasContainer: LiquidContainer, IHazardNotifier
+public class GasContainer: LiquidContainer 
 {
     public override string Type => "G";
 
     public float Pressure { get; set; }
 
-    public GasContainer(int tareWeight, int maximumPayload, int height, int depth, bool isHazardous=false) : base(tareWeight, maximumPayload,
+    public GasContainer(uint tareWeight, uint maximumPayload, uint height, uint depth, bool isHazardous=false) : base(tareWeight, maximumPayload,
         height, depth, isHazardous)
     { }
 
-    public override int empty()
+    public override uint Unload()
     {
-        int to_empty = (int) (CargoWeight * 0.95);
+        uint toEmpty = (uint) (CargoWeight * 0.95);
         
-        CargoWeight -= to_empty;
+        CargoWeight -= toEmpty;
 
-        return to_empty;
+        return toEmpty;
     }
 }

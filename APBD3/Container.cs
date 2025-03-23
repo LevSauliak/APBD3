@@ -2,37 +2,39 @@
 
 public abstract class Container
 {
-    static int Counter = 0;
+    static uint IDCounter = 0;
 
     // Saving memory with allocating string once for the class
     public virtual string Type => "A";
-    public int Height { get; set; }
-    public int TareWeight { get; set; }
-
+    public uint Height { get; set; }
+    public uint TareWeight { get; set; }
     public string SerialNumber { get; }
+    public uint CargoWeight { get; set; }
+    public uint Depth { get; set; }
+    public uint MaximumPayload { get; set; }
 
-    public int CargoWeight { get; set; }
-
-    public int Depth { get; set; }
-    public int MaximumPayload { get; set; }
-
-    public Container(int tareWeight, int maximumPayload, int height, int depth)
+    public Container(uint tareWeight, uint maximumPayload, uint height, uint depth)
     {
         TareWeight = tareWeight;
         Height = height;
         Depth = depth;
         MaximumPayload = maximumPayload;
-        SerialNumber = $"KON-{Type}-{Counter++}";
+        SerialNumber = $"KON-{Type}-{IDCounter++}";
     }
 
-    public virtual int empty()
+    public uint TotalWeight()
     {
-        int cache = CargoWeight;
+        return CargoWeight + TareWeight;
+    }
+
+    public virtual uint Unload()
+    {
+        uint cache = CargoWeight;
         CargoWeight = 0;
         return cache;
     }
 
-    public virtual int load(int mass)
+    public virtual uint Load(uint mass)
     {
         if (CargoWeight + mass > MaximumPayload)
         {
@@ -42,22 +44,9 @@ public abstract class Container
         CargoWeight += mass;
         return CargoWeight;
     }
-}
-
-public class OverfillException : Exception
-{
-    public int input { get; }
-    public int filled { get; }
-    public int max { get; }
-
-    public OverfillException(int input, int filled, int max) : base()
-    {
-        this.input = input;
-        this.filled = filled;
-    }
 
     public override string ToString()
     {
-        return $"OverfillException: tried to fill {input} kg when already filled {filled} kg and max {max} kg.";
+        return $"Container of type: {Type}\nSerial number: {SerialNumber}\nCargo weight: {CargoWeight}\nTare weight: {TareWeight}";
     }
 }
